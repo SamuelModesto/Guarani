@@ -1,5 +1,6 @@
 package com.samuel.authuser.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.samuel.authuser.dtos.UserDto;
 import com.samuel.authuser.enums.UserStatus;
 import com.samuel.authuser.enums.UserType;
@@ -23,11 +24,13 @@ public class AuthenticationController {
     UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Object> registerUser(@RequestBody UserDto userDto) {
-        if(userService.existsByUserName(userDto.getUsername())){
+    public ResponseEntity<Object> registerUser(@RequestBody
+                                               @JsonView(UserDto.UserView.RegistrationPost.class) UserDto userDto) {
+
+        if (userService.existsByUserName(userDto.getUsername())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username is Already Taken !");
         }
-        if(userService.existsByEmail(userDto.getEmail())){
+        if (userService.existsByEmail(userDto.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Email is Already Taken !");
         }
 
