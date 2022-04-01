@@ -3,6 +3,7 @@ package com.samuel.authuser.dtos;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.samuel.authuser.models.User;
+import com.samuel.authuser.validations.UserNameConstraint;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -32,26 +33,25 @@ public class UserDto {
     private UUID userId;
 
     @NotBlank(groups = UserView.RegistrationPost.class)// validacao para indicar em qual view o NotBlank deve ser aplicado
-    @Size(min = 4, max = 50)
+    @Size(min = 4, max = 50, groups = UserView.RegistrationPost.class)
+    @UserNameConstraint(groups = UserView.RegistrationPost.class) // anotacao personalizada
     @JsonView(UserView.RegistrationPost.class)
     private String username;
 
     @NotBlank(groups = UserView.RegistrationPost.class)
-    @Size(min = 4, max = 50)
     @Email
     @JsonView(UserView.RegistrationPost.class)
     private String email;
 
     @NotBlank(groups = {UserView.RegistrationPost.class, UserView.PasswordPut.class})
-    @Size(min = 4, max = 20)
+    @Size(min = 6, max = 20, groups = {UserView.RegistrationPost.class, UserView.PasswordPut.class} )
     @JsonView({UserView.RegistrationPost.class, UserView.PasswordPut.class})
     private String password;
 
     @NotBlank(groups = UserView.PasswordPut.class)
-    @Size(min = 4, max = 20)
+    @Size(min = 6, max = 20, groups = {UserView.RegistrationPost.class, UserView.PasswordPut.class})
     @JsonView(UserView.PasswordPut.class)
     private String oldPassword;
-
 
     @JsonView({UserView.RegistrationPost.class, UserView.UserPut.class})
     private String fullName;
@@ -60,7 +60,7 @@ public class UserDto {
     private String phoneNumber;
 
     @JsonView({UserView.RegistrationPost.class, UserView.UserPut.class})
-    @Size(min = 11, max = 11)
+    @Size(min = 11, max = 11, groups = {UserView.RegistrationPost.class, UserView.UserPut.class})
     private String cpf;
 
     @NotBlank(groups = UserView.ImagePut.class)
