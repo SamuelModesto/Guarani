@@ -5,6 +5,10 @@ import com.samuel.authuser.dtos.UserDto;
 import com.samuel.authuser.models.User;
 import com.samuel.authuser.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,8 +29,10 @@ public class UserController {
     UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
+    public ResponseEntity<Page<User>> getAllUsers(@PageableDefault(page = 0, size = 10, sort = "userId",
+            direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<User> userPage = userService.findAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(userPage);
     }
 
     @GetMapping("/{userId}")
