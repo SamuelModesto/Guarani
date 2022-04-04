@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.samuel.authuser.enums.UserStatus;
 import com.samuel.authuser.enums.UserType;
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL) // oculta os valores nulos no JSON
 @Entity
 @Table(name = "tb_users")
-public class User implements Serializable {
+public class User extends RepresentationModel<User> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
