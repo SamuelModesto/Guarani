@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.samuel.modesto.course.enums.CourseLevel;
 import com.samuel.modesto.course.enums.CourseStatus;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -57,7 +59,8 @@ public class Course implements Serializable {
     // Set permite trazer mais de uma colecao na mesma consulta.
     // Em alteracoes em entidades que tem mapeamento do tipo List o hibernate gera muitas querys desnecessaria.
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // oculta o campo em consultas e gets
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
     private Set<Module> modules;
 
 }
