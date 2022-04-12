@@ -9,6 +9,7 @@ import com.samuel.modesto.course.repositories.ModuleRepository;
 import com.samuel.modesto.course.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,13 +25,24 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     LessonRepository lessonRepository;
 
+    @Transactional
     @Override
     public void delete(Course course) {
         List<Module> modules = moduleRepository.findAllModulesIntoCourse(course.getCourseId());
-        if(!modules.isEmpty()){
-            for(Module module : modules){
-                List<Lesson> lessons =
+        if (!modules.isEmpty()) {
+            for (Module module : modules) {
+                List<Lesson> lessons = lessonRepository.findAllLessonsIntoModule(module.getModuleId());
+                if (!lessons.isEmpty()) {
+                    lessonRepository.deleteAll(lessons);
+                }
             }
+            moduleRepository.deleteAll(modules);
         }
+        courseRepository.delete(course);
+    }
+
+    @Override
+    public Course save(Course course) {
+        return courseRepository.save(course);
     }
 }
