@@ -1,6 +1,5 @@
 package com.samuel.modesto.course.controllers;
 
-import com.samuel.modesto.course.dtos.CourseDto;
 import com.samuel.modesto.course.dtos.ModuleDto;
 import com.samuel.modesto.course.models.Course;
 import com.samuel.modesto.course.models.Module;
@@ -43,9 +42,8 @@ public class ModuleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(moduleService.save(module));
     }
 
-
     @DeleteMapping("/courses/{courseId}/modules/{moduleId}")
-    public ResponseEntity<Object> deleteCourse(@PathVariable(value = "courseId") UUID courseId,
+    public ResponseEntity<Object> deleteModule(@PathVariable(value = "courseId") UUID courseId,
                                                @PathVariable(value = "moduleId") UUID moduleId) {
         Optional<Module> module = moduleService.findModuleIntoCourse(courseId, moduleId);
         if (!module.isPresent()) {
