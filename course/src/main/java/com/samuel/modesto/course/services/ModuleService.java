@@ -15,4 +15,6 @@ public interface ModuleService {
     Optional<Module> findModuleIntoCourse(UUID courseId, UUID moduleId);
 
     List<Module> findAllByCourse(UUID courseId);
+
+    Optional<Module> findById(UUID moduleId);
 }
