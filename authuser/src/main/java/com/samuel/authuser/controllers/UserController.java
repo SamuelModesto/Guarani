@@ -33,6 +33,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    /**
+     *
+     * @param spec
+     * @param pageable paginacao numero da pagina, tamanho da pagina e ordenacao como default, sendo
+     *                 possível que o usuário defina essas propriedades.
+     * @return
+     */
     @GetMapping
     public ResponseEntity<Page<User>> getAllUsers(SpecificationTemplate.UserSpec spec,
                                                   @PageableDefault(page = 0, size = 10, sort = "userId",

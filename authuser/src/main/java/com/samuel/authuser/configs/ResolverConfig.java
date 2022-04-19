@@ -11,6 +11,12 @@ import java.util.List;
 @Configuration
 public class ResolverConfig extends WebMvcConfigurationSupport {
 
+    /**
+     *
+     * @param argumentResolvers argumentos de entrada no momento da requisição, e ela converte
+     *                          os dados para tipos comuns em java. Após essa configuração basica,
+     *                          basta criar specifications.
+     */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new SpecificationArgumentResolver());
