@@ -13,6 +13,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * RepresentationModel é do Hateoas, e serve para colocar links de hipermídias nas requests
+ * como boa prática é ideal colocar o primeiro link de hipermidia em um get
+ */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL) // oculta os valores nulos no JSON
 @Entity
