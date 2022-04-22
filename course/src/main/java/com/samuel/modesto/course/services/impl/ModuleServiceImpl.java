@@ -6,6 +6,9 @@ import com.samuel.modesto.course.repositories.LessonRepository;
 import com.samuel.modesto.course.repositories.ModuleRepository;
 import com.samuel.modesto.course.services.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,5 +53,10 @@ public class ModuleServiceImpl implements ModuleService {
     @Override
     public Optional<Module> findById(UUID moduleId) {
         return moduleRepository.findById(moduleId);
+    }
+
+    @Override
+    public Page<Module> findAllByCourse(Specification<Module> specification, Pageable pageable) {
+        return moduleRepository.findAll(specification, pageable);
     }
 }
