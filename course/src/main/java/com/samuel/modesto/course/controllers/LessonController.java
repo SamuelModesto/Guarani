@@ -5,8 +5,13 @@ import com.samuel.modesto.course.models.Lesson;
 import com.samuel.modesto.course.models.Module;
 import com.samuel.modesto.course.services.LessonService;
 import com.samuel.modesto.course.services.ModuleService;
+import com.samuel.modesto.course.specifications.SpecificationTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -69,8 +74,13 @@ public class LessonController {
     }
 
     @GetMapping("/modules/{moduleId}/lessons/")
-    public ResponseEntity<List<Lesson>> getAllLessons(@PathVariable(value = "moduleId") UUID moduleId) {
-        return ResponseEntity.status(HttpStatus.OK).body(lessonService.findAllByModule(moduleId));
+    public ResponseEntity<Page<Lesson>> getAllLessons(@PathVariable(value = "moduleId") UUID moduleId,
+                                                      SpecificationTemplate.LessonSpec spec,
+                                                      @PageableDefault(page = 0, size = 10, sort = "lessonId",
+                                                              direction = Sort.Direction.ASC) Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(lessonService.findAllByModule(
+                SpecificationTemplate.searchLessonIntoModule(moduleId).
+                        and(spec), pageable));
     }
 
     @GetMapping("/modules/{moduleId}/lessons/{lessonId}")

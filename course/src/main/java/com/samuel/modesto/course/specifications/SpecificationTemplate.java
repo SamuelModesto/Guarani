@@ -45,4 +45,15 @@ public class SpecificationTemplate {
                     criteriaBuilder.isMember(module, modulesInCourse));
         };
     }
+
+    public static Specification<Lesson> searchLessonIntoModule(final UUID moduleId) {
+        return (root, query, criteriaBuilder) -> {
+            query.distinct(true);
+            Root<Lesson> lesson = root;
+            Root<Module> module = query.from(Module.class);
+            Expression<Collection<Lesson>> lessonsInModule = module.get("lessons");
+            return criteriaBuilder.and(criteriaBuilder.equal(module.get("moduleId"), moduleId),
+                    criteriaBuilder.isMember(lesson, lessonsInModule));
+        };
+    }
 }
