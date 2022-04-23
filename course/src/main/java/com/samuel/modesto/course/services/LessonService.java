@@ -1,6 +1,9 @@
 package com.samuel.modesto.course.services;
 
 import com.samuel.modesto.course.models.Lesson;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,4 +17,6 @@ public interface LessonService {
     void delete(Lesson lesson);
 
     List<Lesson> findAllByModule(UUID moduleId);
+
+    Page<Lesson> findAllByModule(Specification<Lesson> spec, Pageable pageable);
 }
