@@ -55,7 +55,7 @@ public class Course implements Serializable {
     @Column(nullable = false)
     private UUID userInstrutor;
 
-    // Set nao eh ordenado e nao permite duplicatas alem disso.
+    // Set nao eh ordenado e nao permite duplicatas alem disso,
     // Set permite trazer mais de uma colecao na mesma consulta.
     // Em alteracoes em entidades que tem mapeamento do tipo List o hibernate gera muitas querys desnecessaria.
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // oculta o campo em consultas e gets
