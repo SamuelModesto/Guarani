@@ -78,8 +78,7 @@ public class ModuleController {
                                                       @PageableDefault(page = 0, size = 10, sort = "moduleId",
                                                               direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(moduleService.findAllByCourse(
-                SpecificationTemplate.searchModulesIntoCourse(courseId).
-                        and(spec), pageable)
+                SpecificationTemplate.searchModulesIntoCourse(courseId).and(spec), pageable)
         );
     }
 
