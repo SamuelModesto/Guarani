@@ -90,6 +90,8 @@ public class UserController {
             user.setCpf(dto.getCpf());
             user.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
             userService.save(user);
+            log.debug("PUT change userId updated {}", user.getUserId());
+            log.info("User changed successfully userId {}", user.getUserId());
             return ResponseEntity.status(HttpStatus.OK).body(user);
         }
     }
@@ -110,6 +112,8 @@ public class UserController {
             user.setPassword(dto.getPassword());
             user.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
             userService.save(user);
+            log.debug("PUT change password userId updated {}", user.getUserId());
+            log.info("User changed successfully userId {}", user.getUserId());
             return ResponseEntity.status(HttpStatus.OK).body("Password has change!");
         }
     }
