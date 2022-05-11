@@ -7,8 +7,6 @@ import com.samuel.authuser.enums.UserType;
 import com.samuel.authuser.models.User;
 import com.samuel.authuser.services.UserService;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
