@@ -34,8 +34,7 @@ public class UserController {
     UserService userService;
 
     /**
-     *
-     * @param spec
+     * @param spec     specification especifico que queremos passar
      * @param pageable paginacao numero da pagina, tamanho da pagina e ordenacao como default, sendo
      *                 possível que o usuário defina essas propriedades.
      * @return
@@ -43,8 +42,14 @@ public class UserController {
     @GetMapping
     public ResponseEntity<Page<User>> getAllUsers(SpecificationTemplate.UserSpec spec,
                                                   @PageableDefault(page = 0, size = 10, sort = "userId",
-                                                          direction = Sort.Direction.ASC) Pageable pageable) {
-        Page<User> userPage = userService.findAll(spec, pageable);
+                                                          direction = Sort.Direction.ASC) Pageable pageable,
+                                                  @RequestParam(required = false) UUID courseId) {
+        Page<User> userPage = null;
+        if (courseId != null) {
+            userPage = userService.findAll(SpecificationTemplate.userCourseId(courseId).and(spec), pageable);
+        } else {
+            userPage = userService.findAll(spec, pageable);
+        }
         if (!userPage.isEmpty()) {
             userPage.stream().forEach(e -> e.add(
                     linkTo(methodOn(UserController.class).getOneUser(e.getUserId())).withSelfRel())
