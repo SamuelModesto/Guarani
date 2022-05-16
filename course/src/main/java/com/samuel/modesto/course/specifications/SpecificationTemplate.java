@@ -3,6 +3,7 @@ package com.samuel.modesto.course.specifications;
 import com.samuel.modesto.course.models.Course;
 import com.samuel.modesto.course.models.Lesson;
 import com.samuel.modesto.course.models.Module;
+import com.samuel.modesto.course.models.User;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
@@ -10,11 +11,13 @@ import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
 import java.util.UUID;
 
 public class SpecificationTemplate {
+
 
     @And({
             @Spec(path = "courseLevel", spec = Equal.class),
@@ -56,4 +59,13 @@ public class SpecificationTemplate {
                     criteriaBuilder.isMember(lesson, lessonsInModule));
         };
     }
+
+    public static Specification<Course> courseUserId(final UUID userId) {
+        return (root, query, criteriaBuilder) -> {
+            query.distinct(true);
+            Join<Course, User> courseProd = root.join("users");
+            return criteriaBuilder.equal(courseProd.get("userId"), userId);
+        };
+    }
+
 }
