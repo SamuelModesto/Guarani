@@ -1,6 +1,7 @@
 package com.samuel.authuser.dtos;
 
 import com.samuel.authuser.enums.CourseLevel;
+import com.samuel.authuser.enums.CourseStatus;
 import lombok.Data;
 
 import java.util.UUID;
